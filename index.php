@@ -1,26 +1,9 @@
-<?php
-if (isset($_POST['expression'])) {
-    $expression = $_POST['expression'];
-
-    // Use eval to evaluate the mathematical expression
-    // WARNING: This function can be dangerous, only use with validated input
-    try {
-        $result = eval("return $expression;");
-        echo $result;
-    } catch (Exception $e) {
-        echo "Error: Invalid Expression";
-    }
-} else {
-    echo "Error: No Expression Provided";
-}
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Calculator</title>
+    <title>Scientific Calculator</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -31,87 +14,124 @@ if (isset($_POST['expression'])) {
             margin: 0;
             background-color: #f4f4f4;
         }
+
         .calculator {
-            width: 260px;
             background-color: #fff;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 320px;
         }
-        input {
-            width: 100%;
-            height: 50px;
-            font-size: 24px;
+
+        #display {
+            width: 90%;
+            height: 40px;
             text-align: right;
-            padding: 10px;
+            font-size: 1.5em;
             margin-bottom: 20px;
-            border: 1px solid #ccc;
+            padding: 10px;
             border-radius: 5px;
+            border: 1px solid #ddd;
+            margin-left: auto;
+            margin-right: auto;
         }
-        .buttons {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-        }
-        .buttons button {
-            padding: 20px;
-            font-size: 18px;
-            border: 1px solid #ccc;
-            background-color: #f4f4f4;
-            border-radius: 5px;
+
+        button {
+            width: 50px;
+            height: 50px;
+            font-size: 1.2em;
+            margin: 5px;
             cursor: pointer;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            background-color: #f4f4f4;
+            transition: background-color 0.2s;
         }
-        .buttons button:hover {
-            background-color: #ddd;
+
+        button:hover {
+            background-color: #e0e0e0;
+        }
+
+        .row {
+            display: flex;
+            justify-content: center;
         }
     </style>
 </head>
 <body>
     <div class="calculator">
-        <input type="text" id="display" disabled>
+        <input type="text" id="display" disabled/>
         <div class="buttons">
-            <button onclick="appendToDisplay('7')">7</button>
-            <button onclick="appendToDisplay('8')">8</button>
-            <button onclick="appendToDisplay('9')">9</button>
-            <button onclick="appendToDisplay('/')">/</button>
-            <button onclick="appendToDisplay('4')">4</button>
-            <button onclick="appendToDisplay('5')">5</button>
-            <button onclick="appendToDisplay('6')">6</button>
-            <button onclick="appendToDisplay('*')">*</button>
-            <button onclick="appendToDisplay('1')">1</button>
-            <button onclick="appendToDisplay('2')">2</button>
-            <button onclick="appendToDisplay('3')">3</button>
-            <button onclick="appendToDisplay('-')">-</button>
-            <button onclick="appendToDisplay('0')">0</button>
-            <button onclick="appendToDisplay('.')">.</button>
-            <button onclick="calculateResult()">=</button>
-            <button onclick="appendToDisplay('+')">+</button>
-            <button onclick="clearDisplay()">C</button>
+            <!-- Row 1 -->
+            <div class="row">
+                <button onclick="clearDisplay()">C</button>
+                <button onclick="appendToDisplay('7')">7</button>
+                <button onclick="appendToDisplay('8')">8</button>
+                <button onclick="appendToDisplay('9')">9</button>
+                <button onclick="appendToDisplay('/')">/</button>
+            </div>
+            <!-- Row 2 -->
+            <div class="row">
+                <button onclick="appendToDisplay('4')">4</button>
+                <button onclick="appendToDisplay('5')">5</button>
+                <button onclick="appendToDisplay('6')">6</button>
+                <button onclick="appendToDisplay('*')">*</button>
+                <button onclick="appendToDisplay('sqrt(')">√</button>
+            </div>
+            <!-- Row 3 -->
+            <div class="row">
+                <button onclick="appendToDisplay('1')">1</button>
+                <button onclick="appendToDisplay('2')">2</button>
+                <button onclick="appendToDisplay('3')">3</button>
+                <button onclick="appendToDisplay('-')">-</button>
+                <button onclick="appendToDisplay('(')">(</button>
+            </div>
+            <!-- Row 4 -->
+            <div class="row">
+                <button onclick="appendToDisplay('0')">0</button>
+                <button onclick="appendToDisplay('.')">.</button>
+                <button onclick="calculateResult()">=</button>
+                <button onclick="appendToDisplay('+')">+</button>
+                <button onclick="appendToDisplay(')')">)</button>
+            </div>
+            <!-- Row 5 (Scientific) -->
+            <div class="row">
+                <button onclick="appendToDisplay('sin(')">sin</button>
+                <button onclick="appendToDisplay('cos(')">cos</button>
+                <button onclick="appendToDisplay('tan(')">tan</button>
+                <button onclick="appendToDisplay('Math.PI')">π</button>
+                <button onclick="appendToDisplay('Math.E')">e</button>
+            </div>
+            <!-- Row 6 (Scientific) -->
+            <div class="row">
+                <button onclick="appendToDisplay('Math.pow(')">x^y</button>
+                <button onclick="appendToDisplay('Math.log10(')">log</button>
+                <button onclick="appendToDisplay('Math.log(')">ln</button>
+                <button onclick="appendToDisplay('Math.exp(')">exp</button>
+            </div>
         </div>
     </div>
 
     <script>
-        function appendToDisplay(value) {
-            document.getElementById("display").value += value;
-        }
+        let display = document.getElementById("display");
 
-        function calculateResult() {
-            let displayValue = document.getElementById("display").value;
-            // Use PHP to handle the calculation
-            fetch("calculator.php", {
-                method: "POST",
-                body: new URLSearchParams("expression=" + displayValue),
-            })
-            .then(response => response.text())
-            .then(result => {
-                document.getElementById("display").value = result;
-            });
+        function appendToDisplay(value) {
+            display.value += value;
         }
 
         function clearDisplay() {
-            document.getElementById("display").value = "";
+            display.value = '';
+        }
+
+        function calculateResult() {
+            try {
+                // Evaluate the expression and replace "Math.pow" etc., with their actual math functions.
+                display.value = eval(display.value);
+            } catch (e) {
+                display.value = 'Error';
+            }
         }
     </script>
 </body>
 </html>
-
