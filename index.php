@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scientific Calculator</title>
     <style>
+        /* General body styling */
         body {
             font-family: Arial, sans-serif;
             display: flex;
@@ -15,6 +16,7 @@
             background-color: #f4f4f4;
         }
 
+        /* Calculator container styling */
         .calculator {
             background-color: #fff;
             padding: 20px;
@@ -24,6 +26,7 @@
             width: 320px;
         }
 
+        /* Display input styling */
         #display {
             width: 90%;
             height: 40px;
@@ -37,6 +40,7 @@
             margin-right: auto;
         }
 
+        /* Button styling */
         button {
             width: 50px;
             height: 50px;
@@ -49,10 +53,12 @@
             transition: background-color 0.2s;
         }
 
+        /* Button hover effect */
         button:hover {
             background-color: #e0e0e0;
         }
 
+        /* Row container styling */
         .row {
             display: flex;
             justify-content: center;
@@ -61,9 +67,10 @@
 </head>
 <body>
     <div class="calculator">
+        <!-- Display for calculator input and output -->
         <input type="text" id="display" disabled/>
         <div class="buttons">
-            <!-- Row 1 -->
+            <!-- Row 1: Clear, numbers 7-9, division -->
             <div class="row">
                 <button onclick="clearDisplay()">C</button>
                 <button onclick="appendToDisplay('7')">7</button>
@@ -71,7 +78,7 @@
                 <button onclick="appendToDisplay('9')">9</button>
                 <button onclick="appendToDisplay('/')">/</button>
             </div>
-            <!-- Row 2 -->
+            <!-- Row 2: Numbers 4-6, multiplication, square root -->
             <div class="row">
                 <button onclick="appendToDisplay('4')">4</button>
                 <button onclick="appendToDisplay('5')">5</button>
@@ -79,7 +86,7 @@
                 <button onclick="appendToDisplay('*')">*</button>
                 <button onclick="appendToDisplay('sqrt(')">√</button>
             </div>
-            <!-- Row 3 -->
+            <!-- Row 3: Numbers 1-3, subtraction, open parenthesis -->
             <div class="row">
                 <button onclick="appendToDisplay('1')">1</button>
                 <button onclick="appendToDisplay('2')">2</button>
@@ -87,7 +94,7 @@
                 <button onclick="appendToDisplay('-')">-</button>
                 <button onclick="appendToDisplay('(')">(</button>
             </div>
-            <!-- Row 4 -->
+            <!-- Row 4: Number 0, decimal, equals, addition, close parenthesis -->
             <div class="row">
                 <button onclick="appendToDisplay('0')">0</button>
                 <button onclick="appendToDisplay('.')">.</button>
@@ -95,7 +102,7 @@
                 <button onclick="appendToDisplay('+')">+</button>
                 <button onclick="appendToDisplay(')')">)</button>
             </div>
-            <!-- Row 5 (Scientific) -->
+            <!-- Row 5: Scientific functions (sin, cos, tan, pi, e) -->
             <div class="row">
                 <button onclick="appendToDisplay('sin(')">sin</button>
                 <button onclick="appendToDisplay('cos(')">cos</button>
@@ -103,7 +110,7 @@
                 <button onclick="appendToDisplay('Math.PI')">π</button>
                 <button onclick="appendToDisplay('Math.E')">e</button>
             </div>
-            <!-- Row 6 (Scientific) -->
+            <!-- Row 6: Scientific functions (power, log, ln, exp) -->
             <div class="row">
                 <button onclick="appendToDisplay('Math.pow(')">x^y</button>
                 <button onclick="appendToDisplay('Math.log10(')">log</button>
@@ -114,22 +121,26 @@
     </div>
 
     <script>
+        // Reference to the display element
         let display = document.getElementById("display");
 
+        // Append a value to the display
         function appendToDisplay(value) {
             display.value += value;
         }
 
+        // Clear the display
         function clearDisplay() {
             display.value = '';
         }
 
+        // Calculate the result of the expression in the display
         function calculateResult() {
             try {
                 // Evaluate the expression and replace "Math.pow" etc., with their actual math functions.
                 display.value = eval(display.value);
             } catch (e) {
-                display.value = 'Error';
+                display.value = 'Error'; // Display error if the expression is invalid
             }
         }
     </script>
