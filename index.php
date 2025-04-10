@@ -1,148 +1,159 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scientific Calculator</title>
-    <style>
-        /* General body styling */
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f4f4f4;
-        }
+  <meta charset="UTF-8">
+  <title>Scientific Calculator</title>
+  <style>
+    /* Style for the entire page */
+    body {
+    font-family: 'Segoe UI', sans-serif;     /* Sets a clean sans-serif font */
+    background: #2d2d2d;                     /* Dark gray background */
+    color: #fff;                             /* White default text color */
+    display: flex;                           /* Use flexbox for layout */
+    justify-content: center;                /* Horizontally center the content */
+    align-items: center;                    /* Vertically center the content */
+    height: 100vh;                           /* Full viewport height */
+    }
 
-        /* Calculator container styling */
-        .calculator {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            width: 320px;
-        }
+    /* Style for the calculator container */
+    .calculator {
+    background: #3c3c3c;                     /* Darker background for calculator */
+    padding: 20px;                           /* Inner spacing around content */
+    border-radius: 10px;                     /* Rounded corners */
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);     /* Subtle shadow for depth */
+    width: 350px;                            /* Fixed width for calculator box */
+    }
 
-        /* Display input styling */
-        #display {
-            width: 90%;
-            height: 40px;
-            text-align: right;
-            font-size: 1.5em;
-            margin-bottom: 20px;
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-            margin-left: auto;
-            margin-right: auto;
-        }
+    /* Style for the display input field */
+    input[type="text"] {
+    width: 90%;                              /* Set input width slightly smaller than container */
+    height: 50px;                            /* Fixed height */
+    font-size: 24px;                         /* Large font for readability */
+    text-align: right;                       /* Text aligned to the right like traditional calculators */
+    padding: 10px;                           /* Inner padding */
+    margin: 0 auto 10px;                     /* Center the input horizontally and add bottom margin */
+    border: none;                            /* No border */
+    border-radius: 5px;                      /* Rounded edges */
+    background: #1e1e1e;                     /* Dark background for the display */
+    color: #0f0;                             /* Green text color like classic calculators */
+    display: block;                          /* Required for margin auto to work correctly */
+    }
 
-        /* Button styling */
-        button {
-            width: 50px;
-            height: 50px;
-            font-size: 1.2em;
-            margin: 5px;
-            cursor: pointer;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-            background-color: #f4f4f4;
-            transition: background-color 0.2s;
-        }
+    /* Container for all calculator buttons */
+    .buttons {
+    display: grid;                           /* Use grid layout for buttons */
+    grid-template-columns: repeat(5, 1fr);   /* Create 5 equal-width columns */
+    gap: 10px;                               /* Space between buttons */
+    }
 
-        /* Button hover effect */
-        button:hover {
-            background-color: #e0e0e0;
-        }
+    /* General button styling */
+    button {
+    padding: 20px;                           /* Size of buttons */
+    font-size: 16px;                         /* Button text size */
+    border: none;                            /* Remove default borders */
+    border-radius: 5px;                      /* Rounded buttons */
+    background: #555;                        /* Dark gray background */
+    color: white;                            /* White text */
+    cursor: pointer;                         /* Pointer cursor on hover */
+    transition: background 0.3s;             /* Smooth background transition on hover */
+    }
 
-        /* Row container styling */
-        .row {
-            display: flex;
-            justify-content: center;
-        }
-    </style>
+    /* Button hover effect */
+    button:hover {
+    background: #777;                        /* Lighten background color on hover */
+    }
+
+    /* Special styling for the "=" button */
+    .equals {
+    background: #0a0;                        /* Green background to stand out */
+    }
+  </style>
 </head>
 <body>
-    <div class="calculator">
-        <!-- Display for calculator input and output -->
-        <input type="text" id="display" disabled/>
-        <div class="buttons">
-            <!-- Row 1: Clear, numbers 7-9, division -->
-            <div class="row">
-                <button onclick="clearDisplay()">C</button>
-                <button onclick="appendToDisplay('7')">7</button>
-                <button onclick="appendToDisplay('8')">8</button>
-                <button onclick="appendToDisplay('9')">9</button>
-                <button onclick="appendToDisplay('/')">/</button>
-            </div>
-            <!-- Row 2: Numbers 4-6, multiplication, square root -->
-            <div class="row">
-                <button onclick="appendToDisplay('4')">4</button>
-                <button onclick="appendToDisplay('5')">5</button>
-                <button onclick="appendToDisplay('6')">6</button>
-                <button onclick="appendToDisplay('*')">*</button>
-                <button onclick="appendToDisplay('sqrt(')">√</button>
-            </div>
-            <!-- Row 3: Numbers 1-3, subtraction, open parenthesis -->
-            <div class="row">
-                <button onclick="appendToDisplay('1')">1</button>
-                <button onclick="appendToDisplay('2')">2</button>
-                <button onclick="appendToDisplay('3')">3</button>
-                <button onclick="appendToDisplay('-')">-</button>
-                <button onclick="appendToDisplay('(')">(</button>
-            </div>
-            <!-- Row 4: Number 0, decimal, equals, addition, close parenthesis -->
-            <div class="row">
-                <button onclick="appendToDisplay('0')">0</button>
-                <button onclick="appendToDisplay('.')">.</button>
-                <button onclick="calculateResult()">=</button>
-                <button onclick="appendToDisplay('+')">+</button>
-                <button onclick="appendToDisplay(')')">)</button>
-            </div>
-            <!-- Row 5: Scientific functions (sin, cos, tan, pi, e) -->
-            <div class="row">
-                <button onclick="appendToDisplay('sin(')">sin</button>
-                <button onclick="appendToDisplay('cos(')">cos</button>
-                <button onclick="appendToDisplay('tan(')">tan</button>
-                <button onclick="appendToDisplay('Math.PI')">π</button>
-                <button onclick="appendToDisplay('Math.E')">e</button>
-            </div>
-            <!-- Row 6: Scientific functions (power, log, ln, exp) -->
-            <div class="row">
-                <button onclick="appendToDisplay('Math.pow(')">x^y</button>
-                <button onclick="appendToDisplay('Math.log10(')">log</button>
-                <button onclick="appendToDisplay('Math.log(')">ln</button>
-                <button onclick="appendToDisplay('Math.exp(')">exp</button>
-            </div>
-        </div>
+
+<!-- Main calculator container -->
+<div class="calculator">
+
+    <!-- Input field for displaying current expression or result -->
+    <input type="text" id="display" readonly> <!-- readonly prevents user typing directly -->
+
+    <!-- Button container -->
+    <div class="buttons">
+
+      <!-- First row -->
+      <button onclick="clearDisplay()">C</button>         <!-- Clear the display -->
+      <button onclick="backspace()">⌫</button>            <!-- Remove last character -->
+      <button onclick="append('π')">π</button>            <!-- Append π (pi constant) -->
+      <button onclick="append('e')">e</button>            <!-- Append e (Euler's number) -->
+      <button onclick="append('/')">÷</button>            <!-- Append divide operator -->
+
+      <!-- Second row -->
+      <button onclick="append('7')">7</button>
+      <button onclick="append('8')">8</button>
+      <button onclick="append('9')">9</button>
+      <button onclick="append('*')">×</button>            <!-- Append multiply operator -->
+      <button onclick="append('**')">^</button>           <!-- Append power operator -->
+
+      <!-- Third row -->
+      <button onclick="append('4')">4</button>
+      <button onclick="append('5')">5</button>
+      <button onclick="append('6')">6</button>
+      <button onclick="append('-')">−</button>            <!-- Append subtraction operator -->
+      <button onclick="append('Math.sqrt(')">√</button>   <!-- Append square root function -->
+
+      <!-- Fourth row -->
+      <button onclick="append('1')">1</button>
+      <button onclick="append('2')">2</button>
+      <button onclick="append('3')">3</button>
+      <button onclick="append('+')">+</button>            <!-- Append addition operator -->
+      <button onclick="append('Math.log10(')">log</button> <!-- Append log base 10 function -->
+
+      <!-- Fifth row -->
+      <button onclick="append('0')">0</button>
+      <button onclick="append('.')">.</button>            <!-- Append decimal point -->
+      <button onclick="append('Math.sin(')">sin</button>  <!-- Append sine function -->
+      <button onclick="append('Math.cos(')">cos</button>  <!-- Append cosine function -->
+      <button onclick="append('Math.tan(')">tan</button>  <!-- Append tangent function -->
+
+      <!-- Sixth row -->
+      <button onclick="append('(')">(</button>            <!-- Open parenthesis -->
+      <button onclick="append(')')">)</button>            <!-- Close parenthesis -->
+      <button onclick="append('Math.log(')">ln</button>   <!-- Append natural log function -->
+      <button class="equals" onclick="calculate()">=</button> <!-- Evaluate the expression -->
+
     </div>
+  </div>
 
-    <script>
-        // Reference to the display element
-        let display = document.getElementById("display");
+  <!-- JavaScript section -->
+  <script>
+    const display = document.getElementById('display'); // Selects the display input field
 
-        // Append a value to the display
-        function appendToDisplay(value) {
-            display.value += value;
-        }
+    // Function to add characters to the display
+    function append(value) {
+      if (value === 'π') value = Math.PI; // Convert π to Math.PI
+      if (value === 'e') value = Math.E;  // Convert e to Math.E
+      display.value += value;             // Append value to current display
+    }
 
-        // Clear the display
-        function clearDisplay() {
-            display.value = '';
-        }
+    // Function to clear the entire display
+    function clearDisplay() {
+      display.value = '';                 // Resets the display to empty
+    }
 
-        // Calculate the result of the expression in the display
-        function calculateResult() {
-            try {
-                // Evaluate the expression and replace "Math.pow" etc., with their actual math functions.
-                display.value = eval(display.value);
-            } catch (e) {
-                display.value = 'Error'; // Display error if the expression is invalid
-            }
-        }
-    </script>
+    // Function to remove the last character
+    function backspace() {
+      display.value = display.value.slice(0, -1); // Removes last character from the string
+    }
+
+    // Function to evaluate the expression
+    function calculate() {
+      try {
+        display.value = eval(display.value); // Evaluates the math expression using JavaScript
+      } catch (e) {
+        display.value = 'Error';             // Display error message if evaluation fails
+      }
+    }
+  </script>
+
 </body>
 </html>
