@@ -6,67 +6,92 @@
   <style>
     /* Style for the entire page */
     body {
-    font-family: 'Segoe UI', sans-serif;     /* Sets a clean sans-serif font */
-    background: #2d2d2d;                     /* Dark gray background */
-    color: #fff;                             /* White default text color */
-    display: flex;                           /* Use flexbox for layout */
+    font-family: 'Segoe UI', sans-serif;    /* Sets the font for the entire page */
+    background: #1b1b1b;                    /* Dark background color */
+    color: #fff;                            /* White text color */
+    display: flex;                          /* Uses flexbox for layout */
     justify-content: center;                /* Horizontally center the content */
     align-items: center;                    /* Vertically center the content */
-    height: 100vh;                           /* Full viewport height */
+    height: 100vh;                          /* Full viewport height */
+    margin: 0;                              /* Removes default margin */
     }
 
-    /* Style for the calculator container */
+    /* Calculator container */
     .calculator {
-    background: #3c3c3c;                     /* Darker background for calculator */
-    padding: 20px;                           /* Inner spacing around content */
-    border-radius: 10px;                     /* Rounded corners */
-    box-shadow: 0 0 15px rgba(0,0,0,0.5);     /* Subtle shadow for depth */
-    width: 350px;                            /* Fixed width for calculator box */
+    background: #2d2d2d;                    /* Dark gray background for the calculator */
+    padding: 25px;                          /* Adds padding around the content inside the calculator */
+    border-radius: 15px;                    /* Rounds the corners of the calculator */
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.8); /* Adds a subtle shadow around the calculator */
+    width: 380px;                           /* Fixed width for the calculator */
+    display: flex;                          /* Uses flexbox for layout */
+    flex-direction: column;                 /* Aligns the content in a vertical column */
+    justify-content: center;                /* Vertically centers the content */
+    align-items: center;                    /* Horizontally centers the content */
     }
 
-    /* Style for the display input field */
+    /* Calculator display (input field) */
     input[type="text"] {
-    width: 90%;                              /* Set input width slightly smaller than container */
-    height: 50px;                            /* Fixed height */
-    font-size: 24px;                         /* Large font for readability */
-    text-align: right;                       /* Text aligned to the right like traditional calculators */
-    padding: 10px;                           /* Inner padding */
-    margin: 0 auto 10px;                     /* Center the input horizontally and add bottom margin */
-    border: none;                            /* No border */
-    border-radius: 5px;                      /* Rounded edges */
-    background: #1e1e1e;                     /* Dark background for the display */
-    color: #0f0;                             /* Green text color like classic calculators */
-    display: block;                          /* Required for margin auto to work correctly */
+    width: 100%;                             /* Makes the input field take 90% of the calculator width */
+    height: 60px;                           /* Fixed height for the input field */
+    font-size: 26px;                        /* Sets a large font size for readability */
+    font-family: 'Courier New', monospace;   /* Monospace font for calculator style */
+    text-align: right;                      /* Aligns the text to the right (standard for calculators) */
+    padding: 15px;                          /* Adds padding inside the input field */
+    border: none;                           /* Removes the default border around the input */
+    border-radius: 8px;                     /* Rounds the corners of the input field */
+    background: #111;                       /* Dark background for the input field */
+    color: #0f0;                            /* Green text color, similar to classic calculators */
+    box-shadow: inset 0 0 10px #000;         /* Adds an inset shadow inside the input field */
+    margin-bottom: 20px;                    /* Adds space below the input field */
+    white-space: nowrap;                    /* Prevents the text from wrapping to the next line */
+    overflow-x: auto;                       /* Adds horizontal scrolling if the content overflows */
     }
 
-    /* Container for all calculator buttons */
+    /* Grid layout for calculator buttons */
     .buttons {
-    display: grid;                           /* Use grid layout for buttons */
-    grid-template-columns: repeat(5, 1fr);   /* Create 5 equal-width columns */
-    gap: 10px;                               /* Space between buttons */
+    display: grid;                          /* Uses grid layout for the buttons */
+    grid-template-columns: repeat(5, 1fr);  /* Creates 5 equal-width columns for the buttons */
+    gap: 15px;                              /* Adds 10px space between buttons */
     }
 
-    /* General button styling */
+    /* General button style */
     button {
-    padding: 20px;                           /* Size of buttons */
-    font-size: 16px;                         /* Button text size */
-    border: none;                            /* Remove default borders */
-    border-radius: 5px;                      /* Rounded buttons */
-    background: #555;                        /* Dark gray background */
-    color: white;                            /* White text */
-    cursor: pointer;                         /* Pointer cursor on hover */
-    transition: background 0.3s;             /* Smooth background transition on hover */
+    padding: 18px;                          /* Button size */
+    font-size: 16px;                        /* Text size inside the button */
+    border: none;                           /* Removes default button borders */
+    border-radius: 6px;                     /* Rounds the edges of the buttons */
+    background: linear-gradient(to bottom, #555, #333); /* Creates a gradient background for the button */
+    color: white;                           /* White text color */
+    cursor: pointer;                        /* Pointer cursor when hovering over the button */
+    box-shadow: 0 4px #111;                 /* Adds a shadow effect to the button to give a 3D look */
+    transition: all 0.2s;                   /* Adds a smooth transition for hover and active states */
     }
 
-    /* Button hover effect */
-    button:hover {
-    background: #777;                        /* Lighten background color on hover */
+    /* Pressed button effect */
+    button:active {
+    box-shadow: 0 2px #000;                 /* Adjusts the shadow when the button is pressed (gives a push effect) */
+    transform: translateY(2px);             /* Moves the button down a little to simulate pressing */
     }
 
-    /* Special styling for the "=" button */
+    /* Special style for function buttons */
+    .function {
+    background: linear-gradient(to bottom, #2a75f3, #114ca1); /* Blue gradient for function buttons */
+    color: #fff;                                               /* White text color */
+    font-weight: bold;                                          /* Makes the text bold */
+    }
+
+    /* Style for operator buttons (+, -, *, etc.) */
+    .operator {
+    background: linear-gradient(to bottom, #c0392b, #96281b);  /* Red gradient for operator buttons */
+    color: #fff;                                                /* White text color */
+    }
+
+    /* Style for equals button */
     .equals {
-    background: #0a0;                        /* Green background to stand out */
+    background: linear-gradient(to bottom, #0a0, #060);         /* Green gradient for the equals button */
+    font-weight: bold;                                          /* Makes the equals button text bold */
     }
+
   </style>
 </head>
 <body>
@@ -74,86 +99,85 @@
 <!-- Main calculator container -->
 <div class="calculator">
 
-    <!-- Input field for displaying current expression or result -->
-    <input type="text" id="display" readonly> <!-- readonly prevents user typing directly -->
-
-    <!-- Button container -->
+    <!-- Display panel -->
+    <input type="text" id="display" readonly> <!-- Readonly prevents typing directly into the input field -->
+  
+    <!-- Buttons grid -->
     <div class="buttons">
-
-      <!-- First row -->
-      <button onclick="clearDisplay()">C</button>         <!-- Clear the display -->
-      <button onclick="backspace()">⌫</button>            <!-- Remove last character -->
-      <button onclick="append('π')">π</button>            <!-- Append π (pi constant) -->
-      <button onclick="append('e')">e</button>            <!-- Append e (Euler's number) -->
-      <button onclick="append('/')">÷</button>            <!-- Append divide operator -->
-
-      <!-- Second row -->
-      <button onclick="append('7')">7</button>
-      <button onclick="append('8')">8</button>
-      <button onclick="append('9')">9</button>
-      <button onclick="append('*')">×</button>            <!-- Append multiply operator -->
-      <button onclick="append('**')">^</button>           <!-- Append power operator -->
-
-      <!-- Third row -->
-      <button onclick="append('4')">4</button>
-      <button onclick="append('5')">5</button>
-      <button onclick="append('6')">6</button>
-      <button onclick="append('-')">−</button>            <!-- Append subtraction operator -->
-      <button onclick="append('Math.sqrt(')">√</button>   <!-- Append square root function -->
-
-      <!-- Fourth row -->
-      <button onclick="append('1')">1</button>
-      <button onclick="append('2')">2</button>
-      <button onclick="append('3')">3</button>
-      <button onclick="append('+')">+</button>            <!-- Append addition operator -->
-      <button onclick="append('Math.log10(')">log</button> <!-- Append log base 10 function -->
-
-      <!-- Fifth row -->
-      <button onclick="append('0')">0</button>
-      <button onclick="append('.')">.</button>            <!-- Append decimal point -->
-      <button onclick="append('Math.sin(')">sin</button>  <!-- Append sine function -->
-      <button onclick="append('Math.cos(')">cos</button>  <!-- Append cosine function -->
-      <button onclick="append('Math.tan(')">tan</button>  <!-- Append tangent function -->
-
-      <!-- Sixth row -->
-      <button onclick="append('(')">(</button>            <!-- Open parenthesis -->
-      <button onclick="append(')')">)</button>            <!-- Close parenthesis -->
-      <button onclick="append('Math.log(')">ln</button>   <!-- Append natural log function -->
-      <button class="equals" onclick="calculate()">=</button> <!-- Evaluate the expression -->
-
+  
+      <!-- First Row: Clear, Backspace, Parens, Division -->
+      <button onclick="clearDisplay()" class="function">C</button> <!-- Clear the display -->
+      <button onclick="backspace()" class="function">⌫</button> <!-- Remove the last character from the display -->
+      <button onclick="append('(')"> ( </button> <!-- Append open parenthesis to the display -->
+      <button onclick="append(')')"> ) </button> <!-- Append close parenthesis to the display -->
+      <button onclick="append('/')" class="operator">÷</button> <!-- Append division operator (÷) to the display -->
+  
+      <!-- Second Row: Numbers & Power -->
+      <button onclick="append('7')">7</button> <!-- Append 7 to the display -->
+      <button onclick="append('8')">8</button> <!-- Append 8 to the display -->
+      <button onclick="append('9')">9</button> <!-- Append 9 to the display -->
+      <button onclick="append('*')" class="operator">×</button> <!-- Append multiplication operator (×) to the display -->
+      <button onclick="append('**')" class="operator">^</button> <!-- Append power operator (^) to the display -->
+  
+      <!-- Third Row: Numbers & Square Root -->
+      <button onclick="append('4')">4</button> <!-- Append 4 to the display -->
+      <button onclick="append('5')">5</button> <!-- Append 5 to the display -->
+      <button onclick="append('6')">6</button> <!-- Append 6 to the display -->
+      <button onclick="append('-')" class="operator">−</button> <!-- Append subtraction operator (−) to the display -->
+      <button onclick="append('Math.sqrt(')" class="function">√</button> <!-- Append square root function to the display -->
+  
+      <!-- Fourth Row: Numbers, Add, Log10 -->
+      <button onclick="append('1')">1</button> <!-- Append 1 to the display -->
+      <button onclick="append('2')">2</button> <!-- Append 2 to the display -->
+      <button onclick="append('3')">3</button> <!-- Append 3 to the display -->
+      <button onclick="append('+')" class="operator">+</button> <!-- Append addition operator (+) to the display -->
+      <button onclick="append('Math.log10(')" class="function">log</button> <!-- Append log base 10 function to the display -->
+  
+      <!-- Fifth Row: 0, Decimal, Trig -->
+      <button onclick="append('0')">0</button> <!-- Append 0 to the display -->
+      <button onclick="append('.')">.</button> <!-- Append decimal point (.) to the display -->
+      <button onclick="append('Math.sin(')" class="function">sin</button> <!-- Append sine function to the display -->
+      <button onclick="append('Math.cos(')" class="function">cos</button> <!-- Append cosine function to the display -->
+      <button onclick="append('Math.tan(')" class="function">tan</button> <!-- Append tangent function to the display -->
+  
+      <!-- Sixth Row: Constants, ln, Equals -->
+      <button onclick="append('Math.PI')">π</button> <!-- Append π (Math.PI constant) to the display -->
+      <button onclick="append('Math.E')">e</button> <!-- Append Euler's number (Math.E constant) to the display -->
+      <button onclick="append('Math.log(')" class="function">ln</button> <!-- Append natural log function (Math.log) to the display -->
+      <button class="equals" onclick="calculate()">=</button> <!-- Evaluate the expression when clicked -->
+  
     </div>
   </div>
-
-  <!-- JavaScript section -->
+  
+  <!-- JavaScript logic -->
   <script>
-    const display = document.getElementById('display'); // Selects the display input field
-
-    // Function to add characters to the display
+    // Select the display input field by its ID 'display'
+    const display = document.getElementById('display'); 
+  
+    // Function to append values or functions to the display
     function append(value) {
-      if (value === 'π') value = Math.PI; // Convert π to Math.PI
-      if (value === 'e') value = Math.E;  // Convert e to Math.E
-      display.value += value;             // Append value to current display
+      display.value += value; // Add the value to the current display value
     }
-
-    // Function to clear the entire display
+  
+    // Function to clear the display completely
     function clearDisplay() {
-      display.value = '';                 // Resets the display to empty
+      display.value = ''; // Set the display to an empty string
     }
-
-    // Function to remove the last character
+  
+    // Function to remove the last character from the display
     function backspace() {
-      display.value = display.value.slice(0, -1); // Removes last character from the string
+      display.value = display.value.slice(0, -1); // Remove the last character using slice
     }
-
-    // Function to evaluate the expression
+  
+    // Function to evaluate the mathematical expression entered in the display
     function calculate() {
       try {
-        display.value = eval(display.value); // Evaluates the math expression using JavaScript
+        display.value = eval(display.value); // Use JavaScript's eval() to evaluate the expression
       } catch (e) {
-        display.value = 'Error';             // Display error message if evaluation fails
+        display.value = 'Error'; // If an error occurs, display "Error" on the screen
       }
     }
-  </script>
+  </script>  
 
 </body>
 </html>
